@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import IconButton from "../ui/IconButton";
 import { style } from "../constants/style";
 import Button from "../ui/Button";
+import { ExpensesContext } from "../store/expenses-context";
 
 const ManageExpenses = ({ route, navigation }) => {
+  const expensesCtx = useContext(ExpensesContext);
+
   const editedExpensesId = route.params?.expensesId;
   const isEditing = !!editedExpensesId;
 
@@ -13,9 +16,16 @@ const ManageExpenses = ({ route, navigation }) => {
       title: isEditing ? "Edit Expense" : "Add Expense",
     });
   }, [navigation, isEditing]);
-  const handleDelete = () => {};
-  const handleCancel = () => {};
-  const confirmCancel = () => {};
+  const handleDelete = () => {
+    expensesCtx.deleteExpense(editedExpensesId);
+    navigation.goBack();
+  };
+  const handleCancel = () => {
+    navigation.goBack();
+  };
+  const confirmCancel = () => {
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
