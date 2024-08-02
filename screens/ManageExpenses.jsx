@@ -1,4 +1,10 @@
-import { StyleSheet, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useContext, useLayoutEffect } from "react";
 import IconButton from "../ui/IconButton";
 import { style } from "../constants/style";
@@ -39,24 +45,28 @@ const ManageExpenses = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ExpenseForm
-        defaultValues={selectedExpenses}
-        onCancel={handleCancel}
-        submitButtonLabel={isEditing ? "Update" : "Add"}
-        onSubmit={handleConfirm}
-      />
-      {isEditing && (
-        <View style={styles.deleteContainer}>
-          <IconButton
-            icon="trash"
-            color={style.colors.error500}
-            size={36}
-            onPress={handleDelete}
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+      <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <ExpenseForm
+            defaultValues={selectedExpenses}
+            onCancel={handleCancel}
+            submitButtonLabel={isEditing ? "Update" : "Add"}
+            onSubmit={handleConfirm}
           />
+          {isEditing && (
+            <View style={styles.deleteContainer}>
+              <IconButton
+                icon="trash"
+                color={style.colors.error500}
+                size={36}
+                onPress={handleDelete}
+              />
+            </View>
+          )}
         </View>
-      )}
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
